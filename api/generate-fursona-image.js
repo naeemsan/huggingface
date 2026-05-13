@@ -19,10 +19,10 @@ export default async function handler(req, res) {
 
     const prompt = [
       "high quality furry fursona character concept art",
-      'species: ${body.species || "wolf"},
-      'style: ${body.style || "semi realistic furry art"},
-      'color palette: ${body.colorMood || "balanced colors"},
-      'personality: ${body.personality || "friendly expressive"},
+      'species: ${body.species || "wolf"}',
+      'style: ${body.style || "semi realistic furry art"}',
+      'color palette: ${body.colorMood || "balanced colors"}',
+      'personality: ${body.personality || "friendly expressive"}',
       "full body furry character",
       "professional furry fandom artwork",
       "clean lighting",
