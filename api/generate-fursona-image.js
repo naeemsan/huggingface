@@ -1,17 +1,28 @@
 export default async function handler(req, res) {
+  if (req.method === "GET") {
+    return res.status(200).json({
+      ok: true,
+      message: "Fursona image API is working. Use POST to generate images.",
+    });
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
+    if (!process.env.HF_TOKEN) {
+      return res.status(500).json({ error: "HF_TOKEN is missing." });
+    }
+
     const body = req.body || {};
 
     const prompt = [
       "high quality furry fursona character concept art",
-      species: ${body.species || "wolf"},
-      style: ${body.style || "semi realistic furry art"},
-      color palette: ${body.colorMood || "balanced colors"},
-      personality: ${body.personality || "friendly expressive"},
+      'species: ${body.species || "wolf"},
+      'style: ${body.style || "semi realistic furry art"},
+      'color palette: ${body.colorMood || "balanced colors"},
+      'personality: ${body.personality || "friendly expressive"},
       "full body furry character",
       "professional furry fandom artwork",
       "clean lighting",
@@ -29,7 +40,10 @@ export default async function handler(req, res) {
           Authorization: Bearer ${process.env.HF_TOKEN},
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ inputs: prompt }),
+        body: JSON.stringify({
+          inputs: prompt,
+          options: { wait_for_model: true },
+        }),
       }
     );
 
@@ -49,6 +63,7 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({
       error: "Image generation failed.",
+      details: error?.message || "Unknown error",
     });
   }
 }
