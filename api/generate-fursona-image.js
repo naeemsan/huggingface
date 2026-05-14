@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     ].join(", ");
 
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/Lykon/dreamshaper-8",
+      "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
       {
         method: "POST",
         headers: {
